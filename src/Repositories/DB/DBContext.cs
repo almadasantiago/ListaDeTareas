@@ -1,12 +1,11 @@
-﻿namespace Repositories;
-using Google.Cloud.Firestore; 
+﻿using Google.Cloud.Firestore; 
 using System.IO; 
 
-namespace Repositories 
+namespace Repositories
 {
 public class FirebaseDbContext 
 {
-    private readonly FirestoreDB _firestoreDb; 
+    private readonly FirestoreDb _firestoreDb; 
 
     public FirebaseDbContext() 
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic; 
 using System.Threading.Tasks; 
 
-namespace Repositories;  
+namespace Repositories
 {
     public class UsuarioRepository  
     {

@@ -6,16 +6,15 @@ public class Usuario{
     public string? nombreUsuario {get; set;}
     public string? Password {get;set;}
 
- public Usuario(string nombre, string apellido, string email,string nombreUsuario, string password){
+ public Usuario(string? nombre, string? apellido, string? email,string? NombreUsuario, string? password){
         Nombre = nombre;
         Apellido = apellido;
         Email = email;
-        nombreUsuario=nombreUsuario; 
+        nombreUsuario=NombreUsuario; 
         Password = password;
     }
 
     public Usuario(){
-        
     }
 
 }

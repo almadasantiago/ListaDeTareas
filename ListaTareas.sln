@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{36442243-D35C-4FB0-914C-DB06FB6BC6D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apllication", "src\Apllication\Apllication.csproj", "{44DF568C-17BE-4949-A6BF-B30403AAC36A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{44DF568C-17BE-4949-A6BF-B30403AAC36A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "src\Repositories\Repositories.csproj", "{66FCDA19-59A3-4885-8BA6-382562A3BDB1}"
 EndProject

@@ -3,3 +3,5 @@ obj/
 .vs/
 appsettings.json
 secrets.json
+config/firebase-config.json
+config/listatareas-1-firebase-adminsdk-fbsvc-84ebd70d51.json

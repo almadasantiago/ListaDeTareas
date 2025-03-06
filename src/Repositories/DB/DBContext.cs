@@ -1,4 +1,4 @@
-﻿using Google.Cloud.Firestore; 
+using Google.Cloud.Firestore; 
 using System.IO; 
 
 namespace Repositories

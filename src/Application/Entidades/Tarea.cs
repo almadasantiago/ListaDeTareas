@@ -17,4 +17,12 @@ public class Tarea
         this.fechaFin=FechaFin;
     }
 
+    public Tarea (string? Nombre, string Descripcion, string? Estado, DateTime? FechaCreacion)
+    {
+        this.nombre = Nombre; 
+        this.descripcion= Descripcion; 
+        this.estado= Estado; 
+        this.fechaCreacion = FechaCreacion; 
+    }
+
 }

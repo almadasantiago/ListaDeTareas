@@ -20,11 +20,38 @@ namespace Repositories
 
         public async Task <string> AgregarTarea(string nombre, string descripcion, string estado) 
         {
-            var tarea = new Tarea (nombre,descripcion,estado,DateTime.Now,null);
+            var tarea = new Tarea (nombre,descripcion,estado,DateTime.Now);
             var tareaRef = db.Collection("tarea").Document(); 
             await tareaRef.SetAsync(tarea); 
             return tareaRef.Id; 
         } 
+
+        public async Task <bool> ModificarTarea (string tareaid, string nombre, string descripcion, string estado)
+        {   
+            var tareaRef = db.Collection("tarea").Document(tareaid); 
+            var tareaDoc = await tareaRef.GetSnapshotAsync();
+
+            if (!tareaDoc.Exists)
+            {
+                return false;
+            }
+            var tareaActualizada = new Tarea(nombre,descripcion,estado,DateTime.Now); 
+            await tareaRef.SetAsync(tareaActualizada,SetOptions.MergeAll);
+            return true; 
+        }
+
+        public async Task <bool> EliminarTarea (string tareaid)
+        {   
+            var tareaRef = db.Collection("tarea").Document(tareaid); 
+            var tareaDoc = await tareaRef.GetSnapshotAsync(); 
+            
+            if (!tareaDoc.Exists)
+            {
+                return false; 
+            }
+                await tareaRef.DeleteAsync(); 
+            return true; 
+        }
 
     }
 

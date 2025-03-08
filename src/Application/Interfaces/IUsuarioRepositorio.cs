@@ -1,11 +1,15 @@
-namespace Application; 
+using System.Threading.Tasks;
+using Application;
+using ListaTareas.Application;
+using Repositories; 
 
-public interface IUsuarioRepositorio
+namespace Repositories
 {
-    int? usuarioAlta (string nombre, string apellido, string email, string nombreUsuario, string password); 
-    void usuarioModificacion(int? idUsuario, string nombre, string apellido, string email, string nombreUsuario, string password);
-    Usuario UsuarioInicioDeSesion(string email, string password);
-    bool EmailRepetido(string? email); 
-
-
+    public interface IUsuarioRepositorio
+    {
+        Task<string> UsuarioAltaAsync(string nombre, string apellido, string email, string nombreUsuario, string password);
+        Task<bool> ModificarUsuarioAsync(string usuarioId, string nombre, string apellido, string email, string nombreUsuario, string password);
+        Task <Usuario> UsuarioInicioDeSesion(string nombreUsuario);
+        Task<bool> EmailRepetido(string? email);
+    }
 }

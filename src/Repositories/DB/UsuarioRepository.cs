@@ -7,7 +7,7 @@ using ListaTareas.Application;
 
 namespace Repositories
 {
-    public class UsuarioRepository
+    public class UsuarioRepository : IUsuarioRepositorio
     {
         private readonly FirestoreDb db;
 
@@ -38,19 +38,26 @@ namespace Repositories
                 return true; 
         }
 
-        public async Task <Usuario> UsuarioIniciarSesion (string nombreUsuario, string password) 
-        {
-            var usuarioRef = db.Collection("usuario").WhereEqualTo("nombreUsuario",nombreUsuario); 
-            var snapshots = await usuarioRef.GetSnapshotAsync();  
+      public async Task<Usuario> UsuarioInicioDeSesion(string nombreUsuario) {
+        var usuarioRef = db.Collection("usuario").WhereEqualTo("nombreUsuario", nombreUsuario);
+        var snapshots = await usuarioRef.GetSnapshotAsync();  
 
-            if (snapshots.Documents.Count == 0)
-            {
-                return null;
-            }
-            var usuarioDoc = snapshots.Documents[0]; 
-            var usuario = usuarioDoc.ConvertTo<Usuario>(); 
-            
-            return usuario; 
+        if (snapshots.Documents.Count == 0)
+        {
+            return await Task.FromResult<Usuario>(null);
+        }
+
+        var usuarioDoc = snapshots.Documents[0]; 
+        return usuarioDoc.ConvertTo<Usuario>();
+        }
+
+       public async Task<bool> EmailRepetido(string? email) 
+        {
+            var snapshot = await db.Collection("usuario")
+                .WhereEqualTo("email", email)
+                 .Limit(1) // Solo necesitamos 1 resultado
+                .GetSnapshotAsync();  
+                return snapshot.Documents.Count > 0;
         }
 
 

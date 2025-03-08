@@ -38,5 +38,21 @@ namespace Repositories
                 return true; 
         }
 
+        public async Task <Usuario> UsuarioIniciarSesion (string nombreUsuario, string password) 
+        {
+            var usuarioRef = db.Collection("usuario").WhereEqualTo("nombreUsuario",nombreUsuario); 
+            var snapshots = await usuarioRef.GetSnapshotAsync();  
+
+            if (snapshots.Documents.Count == 0)
+            {
+                return null;
+            }
+            var usuarioDoc = snapshots.Documents[0]; 
+            var usuario = usuarioDoc.ConvertTo<Usuario>(); 
+            
+            return usuario; 
+        }
+
+
     }
 }

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from './Screens/Home'; 
 import NavBar from './components/NavBar';
+import Home from './Screens/Home';
+
 function App() {
     return (
         <Router>
@@ -13,6 +13,5 @@ function App() {
         </Router>
     );
 }
-
 
 export default App;

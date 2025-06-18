@@ -1,7 +1,7 @@
 ﻿namespace listaTareas.Server.Aplicacion.Entidades
 {
     public class Usuario
-    { private int _id { get; set; }
+    { public int _id { get; set; }
         private string _nombreusuario { get; set; }
         private string _password { get; set; }
         private string _correo { get; set; }

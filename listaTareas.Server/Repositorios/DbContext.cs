@@ -4,7 +4,7 @@ using listaTareas.Server.Aplicacion.Entidades;
 namespace listaTareas.Server.Infraestructura.Persistencia
 {
     public class ApplicationDbContext : DbContext
-    {
+    {   
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 

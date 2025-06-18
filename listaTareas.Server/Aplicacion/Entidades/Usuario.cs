@@ -8,4 +8,10 @@
 
         public List<Tarea> tareas = new List<Tarea>();
     }
+
+    public Usuario (string nombre, string password, string correo)
+        {
+            this._nombreusuario = nombre;
+            this._password = password;  
+        }
 }

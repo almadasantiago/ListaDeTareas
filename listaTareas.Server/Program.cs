@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITareaRepositorio, TareaRepositorios>();
-
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorios>(); 
 
 var app = builder.Build();
 

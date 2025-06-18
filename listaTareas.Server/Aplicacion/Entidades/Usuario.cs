@@ -2,9 +2,9 @@
 {
     public class Usuario
     { public int _id { get; set; }
-        private string _nombreusuario { get; set; }
-        private string _password { get; set; }
-        private string _correo { get; set; }
+        public string _nombreusuario { get; set; }
+        public string _password { get; set; }
+        public string _correo { get; set; }
 
         public List<Tarea> tareas = new List<Tarea>();
 

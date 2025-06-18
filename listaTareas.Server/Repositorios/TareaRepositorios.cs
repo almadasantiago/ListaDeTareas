@@ -20,7 +20,7 @@ namespace listaTareas.Server.Repositorios
             }   
             catch (DbUpdateException dbEx)
             {
-                Console.WriteLine($"Error al agregar el producto: {dbEx.Message}");
+                Console.WriteLine($"Error al agregar la tarea: {dbEx.Message}");
                 Console.WriteLine($"Inner Exception: {dbEx.InnerException?.Message}");
                 Console.WriteLine($"Stack Trace: {dbEx.StackTrace}");
             }
@@ -51,7 +51,7 @@ namespace listaTareas.Server.Repositorios
             if (tarea == null) {throw new Exception($"Tarea con ID {idTarea} no encontrado. "); }
             else
             {
-               tarea = new Tarea(nuevoNombre, nuevaDesc, DateTime.Now, false, usuario);  // reseteo y establezco datos nuevos 
+               tarea = new Tarea(nuevoNombre, nuevaDesc, DateTime.Now, false, usuario);// reseteo y establezco datos nuevos 
             }
             db.SaveChanges();
         }

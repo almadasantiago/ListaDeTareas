@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,6 +8,13 @@
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:53496</SpaProxyServerUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Aplicacion\NewFolder\**" />
+    <Content Remove="Aplicacion\NewFolder\**" />
+    <EmbeddedResource Remove="Aplicacion\NewFolder\**" />
+    <None Remove="Aplicacion\NewFolder\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">

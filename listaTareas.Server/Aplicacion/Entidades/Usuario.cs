@@ -7,11 +7,14 @@
         private string _correo { get; set; }
 
         public List<Tarea> tareas = new List<Tarea>();
-    }
 
-    public Usuario (string nombre, string password, string correo)
+        public Usuario(string nombre, string password, string correo)
         {
             this._nombreusuario = nombre;
-            this._password = password;  
+            this._password = password;
         }
+
+
+    }
+
 }

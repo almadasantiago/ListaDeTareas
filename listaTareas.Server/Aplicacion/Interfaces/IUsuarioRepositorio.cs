@@ -4,8 +4,8 @@ namespace listaTareas.Server.Aplicacion.Interfaces
 {
     public interface IUsuarioRepositorio
     {
-        void usuarioAlta(string nombre, string password, string correo);
-        void usuarioModificiacion(int id, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> tareas);
+        int usuarioAlta(string nombre, string password, string correo);
+        void usuarioModificacion(int id, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> tareas);
 
         Usuario UsuarioInicioDeSesion(string email, string password);
         bool nombreRepetido(string nombre); 

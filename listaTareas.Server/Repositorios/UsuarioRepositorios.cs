@@ -18,11 +18,12 @@ namespace listaTareas.Server.Repositorios
             return usuario != null; 
         }
 
-        void IUsuarioRepositorio.usuarioAlta(string nombre, string password, string correo)
+        int IUsuarioRepositorio.usuarioAlta(string nombre, string password, string correo)
         {    
                 var usuario = new Usuario(nombre, password, correo);
                 context.Usuarios.Add(usuario);
-                context.SaveChanges();      
+                context.SaveChanges();
+            return usuario._id;
         }
 
         Usuario IUsuarioRepositorio.UsuarioInicioDeSesion(string email, string password)
@@ -44,7 +45,7 @@ namespace listaTareas.Server.Repositorios
             }
         }
 
-        void IUsuarioRepositorio.usuarioModificiacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
+        void IUsuarioRepositorio.usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
         {
             var usuarioAModificar = context.Usuarios.FirstOrDefault( u => u._id == idUsuario); 
             if ( usuarioAModificar != null )

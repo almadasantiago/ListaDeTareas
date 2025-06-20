@@ -14,25 +14,13 @@ namespace listaTareas.Server.Repositorios
         }
         void ITareaRepositorio.darDeAltaTarea(string nombre, string descripcion, Usuario usuario)
         {  
-            try { var tarea = new Tarea(nombre, descripcion, DateTime.Now, false, usuario);
+            var tarea = new Tarea(nombre, descripcion, DateTime.Now, false, usuario);
                 db.Tareas.Add(tarea);
                 db.SaveChanges();
-            }   
-            catch (DbUpdateException dbEx)
-            {
-                Console.WriteLine($"Error al agregar la tarea: {dbEx.Message}");
-                Console.WriteLine($"Inner Exception: {dbEx.InnerException?.Message}");
-                Console.WriteLine($"Stack Trace: {dbEx.StackTrace}");
-            }
         }
 
-        void ITareaRepositorio.darDeBajaTarea(int idTarea)
-        {  
-                var tarea = db.Tareas.FirstOrDefault(t => t._id == idTarea);
-                if (tarea == null)
-                {
-                    throw new Exception($" Tarea con id {idTarea} no encontrado. ");
-                }
+        void ITareaRepositorio.darDeBajaTarea(Tarea tarea)
+        { 
                 db.Tareas.Remove(tarea);
                 db.SaveChanges();
         }

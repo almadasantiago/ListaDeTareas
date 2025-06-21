@@ -19,10 +19,17 @@ namespace listaTareas.Server.Repositorios
                 db.SaveChanges();
         }
 
-        void ITareaRepositorio.darDeBajaTarea(Tarea tarea)
-        { 
+        void ITareaRepositorio.darDeBajaTarea(int idTarea)
+        {       var tarea  = db.Tareas.FirstOrDefault(t => t._id == idTarea);
+            if (tarea == null)
+            {
+                throw new Exception(" Tarea inexistente ");
+            }
+            else
+            {
                 db.Tareas.Remove(tarea);
                 db.SaveChanges();
+            }
         }
 
         List<Tarea> ITareaRepositorio.listarTareas()

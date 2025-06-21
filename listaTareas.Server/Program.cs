@@ -9,12 +9,13 @@ using listaTareas.Server.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddScoped<ITareaRepositorio, TareaRepositorios>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorios>();
 builder.Services.AddScoped<UsuarioValidador>();
@@ -26,22 +27,31 @@ builder.Services.AddScoped<CasoDeUsoTareaBaja>();
 builder.Services.AddScoped<CasoDeUsoListarTareas>();
 builder.Services.AddScoped<CasoDeUsoModificarTarea>();
 
-var app = builder.Build();
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-
-// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirFrontend", policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseCors("PermitirFrontend");
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.MapFallbackToFile("/index.html");
 
 app.MapPost("/api/usuarios/registrar",
     async (UsuarioDTO dto, CasoDeUsoUsuarioAlta caso) =>
@@ -71,19 +81,43 @@ app.MapPost("/api/usuarios/login",
         }
     });
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.MapGet("/api/tareas/{idUsuario}", (int idUsuario, CasoDeUsoListarTareas caso) =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    try
+    {
+        var tareas = caso.Ejecutar();
+        return Results.Ok(tareas);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+});
 
-app.UseHttpsRedirection();
+app.MapPost("/api/tareas/crear", async (TareaDTO dto, CasoDeUsoTareaAlta caso) =>
+{
+    try
+    {
+        caso.Ejecutar(dto.Titulo, dto.Descripcion, dto.usuario);
+        return Results.Ok("Tarea creada");
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+});
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
+app.MapDelete("/api/tareas/{id}", (int id, CasoDeUsoTareaBaja caso) =>
+{
+    try
+    {
+        caso.Ejecutar(id);
+        return Results.Ok("Tarea finalizada");
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+});
 
 app.Run();

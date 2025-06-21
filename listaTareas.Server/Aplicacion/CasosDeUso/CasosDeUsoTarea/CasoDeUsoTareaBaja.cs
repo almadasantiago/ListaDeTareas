@@ -5,9 +5,9 @@ namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoTarea
 {
     public class CasoDeUsoTareaBaja (ITareaRepositorio repo)
     {
-        public void Ejecutar(Tarea tarea)
+        public void Ejecutar(int idTarea)
         {
-            repo.darDeBajaTarea(tarea);
+            repo.darDeBajaTarea(idTarea);
         }
     }
 }

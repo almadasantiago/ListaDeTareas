@@ -1,31 +1,59 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css'; 
+import './Home.css';
+import UsuarioService from '../services/UsuarioService';
 
 const Register = () => {
+    const [form, setForm] = useState({
+        nombreUsuario: '',
+        correo: '',
+        password: ''
+    });
+
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.id]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await UsuarioService.registrar(form);
+            alert("Usuario registrado correctamente");
+            navigate("/IniciarSesion");
+        } catch (error) {
+            alert(error.response?.data?.error || "Error al registrar usuario");
+        }
+    };
+
     return (
         <div className="home-container d-flex align-items-center justify-content-center text-white position-relative">
             <div className="overlay"></div>
             <div className="home-content text-center p-4 rounded shadow-lg">
                 <h2 className="mb-4">Registrarse</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="form-group mb-3 text-start">
-                        <label htmlFor="nombreusuario">Nombre de usuario</label>
+                        <label htmlFor="nombreUsuario">Nombre de usuario</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="nombreusuario"
+                            id="nombreUsuario"
                             placeholder="Ingresa un nombre de usuario"
+                            onChange={handleChange}
+                            required
                         />
                     </div>
                     <div className="form-group mb-3 text-start">
-                        <label htmlFor="correo">Correo electronico</label>
+                        <label htmlFor="correo">Correo electrónico</label>
                         <input
                             type="email"
                             className="form-control"
                             id="correo"
                             placeholder="ejemplo@correo.com"
+                            onChange={handleChange}
+                            required
                         />
                     </div>
                     <div className="form-group mb-4 text-start">
@@ -35,6 +63,8 @@ const Register = () => {
                             className="form-control"
                             id="password"
                             placeholder="Ingresar password"
+                            onChange={handleChange}
+                            required
                         />
                     </div>
                     <button type="submit" className="btn btn-light w-100 mb-3">
@@ -50,3 +80,4 @@ const Register = () => {
 };
 
 export default Register;
+

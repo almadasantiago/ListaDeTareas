@@ -5,7 +5,7 @@ namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoUsuario
 {
     public class CasoDeUsoUsuarioIniciarSesion (IUsuarioRepositorio repo) 
     {
-        public Usuario Ejecutar(string nombreUsuario, string password) 
+        public int Ejecutar(string nombreUsuario, string password) 
         {
             string passwordPasadaPorHash = ServicioFuncionHash.FuncionHashSHA256(password);
             return repo.UsuarioInicioDeSesion(nombreUsuario, password); 

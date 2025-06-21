@@ -26,13 +26,13 @@ namespace listaTareas.Server.Repositorios
             return usuario._id;
         }
 
-        Usuario IUsuarioRepositorio.UsuarioInicioDeSesion(string email, string password)
+        int IUsuarioRepositorio.UsuarioInicioDeSesion(string email, string password)
         {
             var usuario = context.Usuarios.FirstOrDefault(u => u._correo!.ToLower() == email.ToLower());
             if (usuario != null)
             {   if (usuario._password == password)
                 {
-                    return usuario;
+                    return usuario._id;
                 }
                 else
                 {

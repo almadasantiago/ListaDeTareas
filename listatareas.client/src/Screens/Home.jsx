@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import { Link } from 'react-router-dom';
 
-
+    
 const Home = () => {
     return (
         <div className="home-container text-white position-relative">

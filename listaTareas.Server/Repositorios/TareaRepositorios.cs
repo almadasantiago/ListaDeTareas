@@ -20,7 +20,7 @@ namespace listaTareas.Server.Repositorios
         }
 
         void ITareaRepositorio.darDeBajaTarea(int idTarea)
-        {       var tarea  = db.Tareas.FirstOrDefault(t => t._id == idTarea);
+        {       var tarea  = db.Tareas.FirstOrDefault(t => t.Id == idTarea);
             if (tarea == null)
             {
                 throw new Exception(" Tarea inexistente ");
@@ -42,7 +42,7 @@ namespace listaTareas.Server.Repositorios
 
         void ITareaRepositorio.modificarTarea(int idTarea, string nuevoNombre, string nuevaDesc, Usuario usuario)
         {
-            var tarea = db.Tareas.FirstOrDefault(t => t._id == idTarea);
+            var tarea = db.Tareas.FirstOrDefault(t => t.Id == idTarea);
             if (tarea == null) {throw new Exception($"Tarea con ID {idTarea} no encontrado. "); }
             else
             {

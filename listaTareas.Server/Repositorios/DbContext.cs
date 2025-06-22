@@ -4,7 +4,7 @@ using listaTareas.Server.Aplicacion.Entidades;
 namespace listaTareas.Server.Infraestructura.Persistencia
 {
     public class ApplicationDbContext : DbContext
-    {   
+    {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
@@ -15,62 +15,52 @@ namespace listaTareas.Server.Infraestructura.Persistencia
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Usuario>().ToTable("Usuarios");
-            modelBuilder.Entity<Usuario>().HasKey("._id");
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.ToTable("Usuarios");
 
-            modelBuilder.Entity<Usuario>()
-                .Property<string>("_nombreusuario")
-                .HasColumnName("NombreUsuario")
-                .HasMaxLength(100)
-                .IsRequired();
+                entity.HasKey(u => u.Id);
 
-            modelBuilder.Entity<Usuario>()
-                .Property<string>("_password")
-                .HasColumnName("Password")
-                .HasMaxLength(100)
-                .IsRequired();
+                entity.Property(u => u.Nombreusuario)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
-            modelBuilder.Entity<Usuario>()
-                .Property<string>("_correo")
-                .HasColumnName("Correo")
-                .HasMaxLength(100)
-                .IsRequired();
+                entity.Property(u => u.Password)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
-            modelBuilder.Entity<Usuario>()
-                .HasMany<Tarea>("tareas")
-                .WithOne("usuario")
-                .HasForeignKey("UsuarioId")
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(u => u.Correo)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
+                entity.HasMany(u => u.Tareas)
+                    .WithOne(t => t.Usuario)
+                    .HasForeignKey(t => t.UsuarioId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
 
-            modelBuilder.Entity<Tarea>().ToTable("Tareas");
-            modelBuilder.Entity<Tarea>().HasKey("._id");
+            modelBuilder.Entity<Tarea>(entity =>
+            {
+                entity.ToTable("Tareas");
 
-            modelBuilder.Entity<Tarea>()
-                .Property<string>("_nombre")
-                .HasColumnName("Nombre")
-                .HasMaxLength(100)
-                .IsRequired();
+                entity.HasKey(t => t.Id);
 
-            modelBuilder.Entity<Tarea>()
-                .Property<string>("_descripcion")
-                .HasColumnName("Descripcion")
-                .HasMaxLength(500);
+                entity.Property(t => t.Nombre)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
-            modelBuilder.Entity<Tarea>()
-                .Property<DateTime>("_fecha")
-                .HasColumnName("Fecha")
-                .IsRequired();
+                entity.Property(t => t.Descripcion)
+                    .HasMaxLength(500);
 
-            modelBuilder.Entity<Tarea>()
-                .Property<bool>("finalizo")
-                .HasColumnName("Finalizo")
-                .IsRequired();
+                entity.Property(t => t.Fecha)
+                    .IsRequired();
 
-            modelBuilder.Entity<Tarea>()
-                .Property<int>("UsuarioId")
-                .HasColumnName("UsuarioId")
-                .IsRequired();
+                entity.Property(t => t.Finalizo)
+                    .IsRequired();
+
+                entity.Property(t => t.UsuarioId)
+                    .IsRequired();
+            });
         }
     }
 }

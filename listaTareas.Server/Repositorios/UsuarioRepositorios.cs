@@ -1,38 +1,61 @@
 ﻿using listaTareas.Server.Aplicacion;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-using System.Diagnostics;
-using listaTareas.Server.Aplicacion.Interfaces;
 using listaTareas.Server.Aplicacion.Entidades;
+using listaTareas.Server.Aplicacion.Interfaces;
 using listaTareas.Server.Infraestructura.Persistencia;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace listaTareas.Server.Repositorios
 {
-    public class UsuarioRepositorios : IUsuarioRepositorio 
+    public class UsuarioRepositorios : IUsuarioRepositorio
     {
-        private readonly ApplicationDbContext context;         
-        
-        bool IUsuarioRepositorio.nombreRepetido(string nombre)
+        private readonly ApplicationDbContext context;
+
+        public UsuarioRepositorios(ApplicationDbContext context)
         {
-            var usuario = context.Usuarios.FirstOrDefault(u => u._nombreusuario.ToLower() == nombre.ToLower());
-            return usuario != null; 
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        int IUsuarioRepositorio.usuarioAlta(string nombre, string password, string correo)
-        {    
-                var usuario = new Usuario(nombre, password, correo);
-                context.Usuarios.Add(usuario);
-                context.SaveChanges();
-            return usuario._id;
+        public bool nombreRepetido(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                throw new ArgumentException("El nombre no puede ser nulo o vacío.");
+
+            var usuario = context.Usuarios.FirstOrDefault(u =>
+                !string.IsNullOrWhiteSpace(u.Nombreusuario) &&
+                u.Nombreusuario.ToLower() == nombre.ToLower());
+
+            return usuario != null;
         }
 
-        int IUsuarioRepositorio.UsuarioInicioDeSesion(string email, string password)
+        public int usuarioAlta(string nombre, string password, string correo)
         {
-            var usuario = context.Usuarios.FirstOrDefault(u => u._correo!.ToLower() == email.ToLower());
+            Console.WriteLine("DEBUG: Entrando a usuarioAlta");
+
+            var usuario = new Usuario(nombre, password, correo);
+            context.Usuarios.Add(usuario);
+            context.SaveChanges();
+
+            Console.WriteLine("DEBUG: Usuario guardado con ID " + usuario.Id);
+            return usuario.Id;
+        }
+
+        public int UsuarioInicioDeSesion(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Email y contraseña no pueden ser vacíos.");
+
+            var usuario = context.Usuarios.FirstOrDefault(u =>
+                !string.IsNullOrWhiteSpace(u.Correo) &&
+                u.Correo.ToLower() == email.ToLower());
+
             if (usuario != null)
-            {   if (usuario._password == password)
+            {
+                if (usuario.Password == password)
                 {
-                    return usuario._id;
+                    return usuario.Id;
                 }
                 else
                 {
@@ -45,22 +68,19 @@ namespace listaTareas.Server.Repositorios
             }
         }
 
-        void IUsuarioRepositorio.usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
+        public void usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
         {
-            var usuarioAModificar = context.Usuarios.FirstOrDefault( u => u._id == idUsuario); 
-            if ( usuarioAModificar != null )
-            {
-                usuarioAModificar._id = idUsuario;
-                usuarioAModificar._nombreusuario = nuevoNombre;
-                usuarioAModificar._password = nuevaPassword;
-                usuarioAModificar._correo = nuevoCorreo;
-                usuarioAModificar.tareas = Nuevastareas;
-                context.SaveChanges();
-            }
-                else
-            {
-                throw new Exception(" El usuario no existe ");
-            } 
+            var usuarioAModificar = context.Usuarios.FirstOrDefault(u => u.Id == idUsuario);
+
+            if (usuarioAModificar == null)
+                throw new Exception("El usuario no existe");
+
+            usuarioAModificar.Nombreusuario = nuevoNombre;
+            usuarioAModificar.Password = nuevaPassword;
+            usuarioAModificar.Correo = nuevoCorreo;
+            usuarioAModificar.Tareas = Nuevastareas;
+
+            context.SaveChanges();
         }
     }
 }

@@ -1,18 +1,25 @@
 ﻿namespace listaTareas.Server.Aplicacion.Entidades
 {
     public class Usuario
-    { public int _id { get; set; }
-        public string _nombreusuario { get; set; }
-        public string _password { get; set; }
-        public string _correo { get; set; }
+    { public int Id { get; set; }
+        public string Nombreusuario { get; set; }
+        public string Password { get; set; }
+        public string Correo { get; set; }
 
-        public List<Tarea> tareas = new List<Tarea>();
+        public List<Tarea> Tareas = new List<Tarea>();
 
+        public Usuario() 
+        {
+            Tareas = new List<Tarea>();
+        }
         public Usuario(string nombre, string password, string correo)
         {
-            this._nombreusuario = nombre;
-            this._password = password;
+            Nombreusuario = nombre;
+            Password = password;
+            Correo = correo;
+            Tareas = new List<Tarea>();
         }
+
 
 
     }

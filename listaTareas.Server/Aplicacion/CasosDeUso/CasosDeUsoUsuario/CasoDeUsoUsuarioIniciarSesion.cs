@@ -8,7 +8,7 @@ namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoUsuario
         public int Ejecutar(string nombreUsuario, string password) 
         {
             string passwordPasadaPorHash = ServicioFuncionHash.FuncionHashSHA256(password);
-            return repo.UsuarioInicioDeSesion(nombreUsuario, password); 
+            return repo.UsuarioInicioDeSesion(nombreUsuario, passwordPasadaPorHash); 
         }
     }
 }

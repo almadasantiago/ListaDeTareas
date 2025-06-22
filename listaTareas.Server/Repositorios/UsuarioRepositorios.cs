@@ -48,8 +48,8 @@ namespace listaTareas.Server.Repositorios
                 throw new ArgumentException("Email y contraseña no pueden ser vacíos.");
 
             var usuario = context.Usuarios.FirstOrDefault(u =>
-                !string.IsNullOrWhiteSpace(u.Correo) &&
-                u.Correo.ToLower() == email.ToLower());
+                !string.IsNullOrWhiteSpace(u.Nombreusuario) &&
+                u.Nombreusuario.ToLower() == email.ToLower());
 
             if (usuario != null)
             {
@@ -59,12 +59,12 @@ namespace listaTareas.Server.Repositorios
                 }
                 else
                 {
-                    throw new Exception("La contraseña ingresada no corresponde con el email ingresado");
+                    throw new Exception("La contraseña ingresada no corresponde con el nombre de usuario ingresado");
                 }
             }
             else
             {
-                throw new Exception("El email ingresado no existe en el repositorio");
+                throw new Exception("El nombre de usuario ingresado no existe en el repositorio");
             }
         }
 

@@ -104,7 +104,7 @@ app.MapPost("/api/tareas/crear", async (TareaDTO dto, CasoDeUsoTareaAlta caso) =
 {
     try
     {
-        caso.Ejecutar(dto.Titulo, dto.Descripcion, dto.usuario);
+        caso.Ejecutar(dto.Titulo, dto.Descripcion, dto.idUsuario);
         return Results.Ok("Tarea creada");
     }
     catch (Exception ex)
@@ -112,6 +112,7 @@ app.MapPost("/api/tareas/crear", async (TareaDTO dto, CasoDeUsoTareaAlta caso) =
         return Results.BadRequest(new { error = ex.Message });
     }
 });
+
 
 app.MapDelete("/api/tareas/{id}", (int id, CasoDeUsoTareaBaja caso) =>
 {

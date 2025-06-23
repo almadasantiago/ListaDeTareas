@@ -12,9 +12,9 @@ namespace listaTareas.Server.Repositorios
         public TareaRepositorios (ApplicationDbContext context) {
             db = context; 
         }
-        void ITareaRepositorio.darDeAltaTarea(string nombre, string descripcion, Usuario usuario)
+        void ITareaRepositorio.darDeAltaTarea(string nombre, string descripcion, int idUsuario)
         {  
-            var tarea = new Tarea(nombre, descripcion, DateTime.Now, false, usuario);
+            var tarea = new Tarea(nombre, descripcion, DateTime.Now, false, idUsuario);
                 db.Tareas.Add(tarea);
                 db.SaveChanges();
         }
@@ -40,13 +40,13 @@ namespace listaTareas.Server.Repositorios
         }
 
 
-        void ITareaRepositorio.modificarTarea(int idTarea, string nuevoNombre, string nuevaDesc, Usuario usuario)
+        void ITareaRepositorio.modificarTarea(int idTarea, string nuevoNombre, string nuevaDesc, int idUsuario)
         {
             var tarea = db.Tareas.FirstOrDefault(t => t.Id == idTarea);
             if (tarea == null) {throw new Exception($"Tarea con ID {idTarea} no encontrado. "); }
             else
             {
-               tarea = new Tarea(nuevoNombre, nuevaDesc, DateTime.Now, false, usuario);// reseteo y establezco datos nuevos 
+               tarea = new Tarea(nuevoNombre, nuevaDesc, DateTime.Now, false, idUsuario);// reseteo y establezco datos nuevos 
             }
             db.SaveChanges();
         }

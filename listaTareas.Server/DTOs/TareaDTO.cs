@@ -6,6 +6,7 @@ namespace listaTareas.Server.DTOs
     {
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
-        public Usuario usuario { get; set; }
+        public DateTime fecha { get; set; }
+        public int idUsuario { get; set; }
     }
 }

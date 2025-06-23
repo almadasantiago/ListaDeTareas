@@ -7,7 +7,7 @@ import TareaService from '../services/TareaService';
 const Tareas = () => {
     const [tareas, setTareas] = useState([]);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
-    const [nuevaTarea, setNuevaTarea] = useState({ titulo: '', descripcion: '' });
+    const [nuevaTarea, setNuevaTarea] = useState({ Titulo: '', Descripcion: '' });
 
     const navigate = useNavigate();
     const usuarioId = localStorage.getItem('usuarioId');
@@ -37,10 +37,13 @@ const Tareas = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await TareaService.crear({ ...nuevaTarea, idUsuario: parseInt(usuarioId) });
-            setNuevaTarea({ titulo: '', descripcion: '' });
+            await TareaService.crear({
+                titulo: nuevaTarea.Titulo,
+                descripcion: nuevaTarea.Descripcion,
+                idUsuario: parseInt(usuarioId),
+            });
+            setNuevaTarea({ Titulo: '', Descripcion: '' });
             setMostrarFormulario(false);
-
             const dataActualizada = await TareaService.listar(usuarioId);
             setTareas(dataActualizada);
         } catch (error) {
@@ -60,53 +63,66 @@ const Tareas = () => {
         }
     };
 
+    const toggleFormulario = () => {
+        setMostrarFormulario(!mostrarFormulario);
+    };
+
     return (
         <div className="home-container text-white position-relative">
             <div className="overlay"></div>
 
-            <div className="d-flex justify-content-between align-items-center px-4 pt-3">
+            <div className="d-flex justify-content-between align-items-center px-4 pt-3 position-relative" style={{ zIndex: 2 }}>
                 <h2 className="fw-bold">Tus Tareas</h2>
                 <button
-                    className="btn btn-light"
-                    onClick={() => setMostrarFormulario(!mostrarFormulario)}
+                    className="btn btn-outline-light"
+                    onClick={toggleFormulario}
+                    style={{ zIndex: 3 }}
                 >
-                    {mostrarFormulario ? "Cancelar" : "Agregar Tarea"}
+                    {mostrarFormulario ? "Cerrar Formulario" : "Agregar Tarea"}
                 </button>
             </div>
 
             {mostrarFormulario && (
-                <div className="container mt-4">
-                    <form onSubmit={handleSubmit} className="bg-dark p-4 rounded shadow-sm">
+                <div className="modal-formulario position-fixed top-50 start-50 translate-middle shadow" style={{ zIndex: 1050 }}>
+                    <form onSubmit={handleSubmit} className="formulario-tarea-transparent p-4 rounded">
+                        <h5 className="mb-4 text-center">Nueva Tarea</h5>
                         <div className="form-group mb-3">
-                            <label htmlFor="titulo">Título</label>
+                            <label htmlFor="Titulo">Titulo</label>
                             <input
                                 type="text"
-                                name="titulo"
+                                name="Titulo"
                                 className="form-control"
-                                value={nuevaTarea.titulo}
+                                value={nuevaTarea.Titulo}
                                 onChange={handleInputChange}
                                 required
                             />
                         </div>
                         <div className="form-group mb-3">
-                            <label htmlFor="descripcion">Descripción</label>
+                            <label htmlFor="Descripcion">Descripcion</label>
                             <textarea
-                                name="descripcion"
+                                name="Descripcion"
                                 className="form-control"
                                 rows="3"
-                                value={nuevaTarea.descripcion}
+                                value={nuevaTarea.Descripcion}
                                 onChange={handleInputChange}
                                 required
                             ></textarea>
                         </div>
-                        <button type="submit" className="btn btn-success w-100">
+                        <button type="submit" className="btn btn-outline-light w-100 mb-2">
                             Crear Tarea
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-danger w-100"
+                            onClick={toggleFormulario}
+                        >
+                            Cancelar
                         </button>
                     </form>
                 </div>
             )}
 
-            <div className="container mt-4">
+            <div className="container mt-4 position-relative" style={{ zIndex: 2 }}>
                 <div className="row">
                     {tareas.map((tarea) => (
                         <div key={tarea.id} className="col-md-6 col-lg-4 mb-4">
@@ -114,7 +130,7 @@ const Tareas = () => {
                                 <div className="card-body">
                                     <h5 className="card-title">{tarea.titulo}</h5>
                                     <p className="card-text">{tarea.descripcion}</p>
-                                    <p className="mb-1"><strong>Fecha:</strong> {tarea.fechaAlta}</p>
+                                    <p className="mb-1"><strong>Fecha:</strong> {new Date(tarea.fecha).toLocaleDateString()}</p>
                                     <p><strong>Estado:</strong> <span className="text-success">Activa</span></p>
                                     <div className="d-flex justify-content-between mt-3">
                                         <button className="btn btn-outline-light btn-sm">Modificar</button>
@@ -131,7 +147,7 @@ const Tareas = () => {
                     ))}
                     {tareas.length === 0 && (
                         <div className="text-center text-white mt-4">
-                            <p>No tenés tareas activas.</p>
+                            <p>No tenes tareas activas.</p>
                         </div>
                     )}
                 </div>

@@ -44,6 +44,38 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
+.modal-formulario {
+    width: 90%;
+    max-width: 400px;
+}
+
+.formulario-tarea-transparent {
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+    .formulario-tarea-transparent .form-control {
+        background-color: white !important;
+        color: black !important;
+    }
+
+        .formulario-tarea-transparent .form-control::placeholder {
+            color: #666;
+        }
+
+    .formulario-tarea-transparent .btn {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+        .formulario-tarea-transparent .btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
 
 
 

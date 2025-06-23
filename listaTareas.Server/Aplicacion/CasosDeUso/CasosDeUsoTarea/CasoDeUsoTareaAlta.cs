@@ -5,9 +5,9 @@ namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoTarea
 {
     public class CasoDeUsoTareaAlta(ITareaRepositorio repo) 
     {
-        public void Ejecutar(string nombre, string descripcion, Usuario usuario)
+        public void Ejecutar(string nombre, string descripcion, int idUsuario)
         {
-            repo.darDeAltaTarea(nombre, descripcion, usuario); 
+            repo.darDeAltaTarea(nombre, descripcion, idUsuario); 
         }
     }
 }

@@ -34,7 +34,7 @@ namespace listaTareas.Server.Infraestructura.Persistencia
                     .IsRequired();
 
                 entity.HasMany(u => u.Tareas)
-                    .WithOne(t => t.Usuario)
+                    .WithOne(t => t.Usuario) 
                     .HasForeignKey(t => t.UsuarioId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
@@ -60,6 +60,10 @@ namespace listaTareas.Server.Infraestructura.Persistencia
 
                 entity.Property(t => t.UsuarioId)
                     .IsRequired();
+
+                entity.HasOne(t => t.Usuario) 
+                      .WithMany(u => u.Tareas)
+                      .HasForeignKey(t => t.UsuarioId);
             });
         }
     }

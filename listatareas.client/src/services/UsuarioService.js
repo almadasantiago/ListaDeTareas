@@ -16,7 +16,12 @@ const UsuarioService = {
         return response.data;
     },
     modificar: async (id, datos) => {
-        const response = await axios.put(`${API_URL}/${id}`, datos);
+        const payload =
+        {
+            id: id,
+            ...datos
+        }; 
+        const response = await axios.put(`${API_URL}/modificar`, payload);
         return response.data;
     }
 

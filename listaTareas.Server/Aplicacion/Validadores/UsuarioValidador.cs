@@ -1,4 +1,5 @@
 ﻿using listaTareas.Server.Aplicacion.Interfaces;
+using listaTareas.Server.Aplicacion.Entidades;
 
 namespace listaTareas.Server.Aplicacion.Validadores
 {
@@ -10,14 +11,16 @@ namespace listaTareas.Server.Aplicacion.Validadores
         {
             this.repo = repo ?? throw new ArgumentNullException(nameof(repo));
         }
-
         public bool validar(string nombreUsuario)
         {
-            Console.WriteLine("DEBUG: Validando nombre de usuario " + nombreUsuario);
-            var resultado = repo.nombreRepetido(nombreUsuario);
-            Console.WriteLine("DEBUG: Resultado de nombreRepetido: " + resultado);
-            return resultado;
+            var usuarioExistente = repo.buscarPorNombre(nombreUsuario);
+            return usuarioExistente == null;
+        }
+        public bool validarModificacion(int idUsuario, string nombreUsuario)
+        {
+            var usuarioExistente = repo.buscarPorNombre(nombreUsuario);
+            if (usuarioExistente == null) return true;
+            return usuarioExistente.Id == idUsuario;  
         }
     }
 }
-

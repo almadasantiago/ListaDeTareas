@@ -100,6 +100,13 @@ app.MapPost("/api/usuarios/login",
         }
     });
 
+app.MapPut("/api/usuarios/modificar", async (UsuarioDTO dto, CasoDeUsoUsuarioModificar caso) =>
+{
+    caso.Ejecutar(dto.Id, dto.NombreUsuario, dto.Password, dto.Correo);
+    return Results.Ok("Usuario modificado");
+});
+
+
 app.MapGet("/api/tareas", (int idUsuario, int pagina, int tamanioPagina, ITareaRepositorio repo) =>
 {
     var result = repo.ListarPaginado(idUsuario, pagina, tamanioPagina);

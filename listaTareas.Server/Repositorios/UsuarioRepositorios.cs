@@ -19,6 +19,11 @@ namespace listaTareas.Server.Repositorios
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public Usuario buscarPorNombre(string nombreUsuario)
+        {
+            return context.Usuarios.FirstOrDefault(u => u.Nombreusuario == nombreUsuario);
+        }
+
         public bool nombreRepetido(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
@@ -33,13 +38,9 @@ namespace listaTareas.Server.Repositorios
 
         public int usuarioAlta(string nombre, string password, string correo)
         {
-            Console.WriteLine("DEBUG: Entrando a usuarioAlta");
-
             var usuario = new Usuario(nombre, password, correo);
             context.Usuarios.Add(usuario);
             context.SaveChanges();
-
-            Console.WriteLine("DEBUG: Usuario guardado con ID " + usuario.Id);
             return usuario.Id;
         }
 
@@ -81,7 +82,7 @@ namespace listaTareas.Server.Repositorios
         }
 
 
-        public void usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
+        public void usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo)
         {
             var usuarioAModificar = context.Usuarios.FirstOrDefault(u => u.Id == idUsuario);
 
@@ -91,7 +92,6 @@ namespace listaTareas.Server.Repositorios
             usuarioAModificar.Nombreusuario = nuevoNombre;
             usuarioAModificar.Password = nuevaPassword;
             usuarioAModificar.Correo = nuevoCorreo;
-            usuarioAModificar.Tareas = Nuevastareas;
 
             context.SaveChanges();
         }

@@ -1,20 +1,28 @@
-﻿using listaTareas.Server.Aplicacion.Entidades;
-using listaTareas.Server.Aplicacion.Interfaces;
+﻿using listaTareas.Server.Aplicacion.Interfaces;
 using listaTareas.Server.Aplicacion.Validadores;
-using System.ComponentModel.DataAnnotations;
 
 namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoUsuario
 {
-    public class CasoDeUsoUsuarioModificar(IUsuarioRepositorio repo, UsuarioValidador validador)
+    public class CasoDeUsoUsuarioModificar
     {
-        public void Ejecutar(int idUsuario, string nombre,string password, string email, List<Tarea> tareas)
+        private readonly IUsuarioRepositorio repo;
+        private readonly UsuarioValidador validador;
+
+        public CasoDeUsoUsuarioModificar(IUsuarioRepositorio repo, UsuarioValidador validador)
         {
-            if (!validador.validar(nombre))
+            this.repo = repo ?? throw new ArgumentNullException(nameof(repo));
+            this.validador = validador ?? throw new ArgumentNullException(nameof(validador));
+        }
+
+        public void Ejecutar(int idUsuario, string nombre, string password, string email)
+        {
+            if (!validador.validarModificacion(idUsuario, nombre))
             {
-                throw new Exception("El nombre de usuario ingresado ya existe ");
-            };
-            string passwordPasadaPorHash = ServicioFuncionHash.FuncionHashSHA256(password);
-            repo.usuarioModificacion(idUsuario, nombre,passwordPasadaPorHash,email,tareas);
+                throw new Exception("El nombre de usuario ingresado ya existe.");
+            }
+
+            string passwordHasheada = ServicioFuncionHash.FuncionHashSHA256(password);
+            repo.usuarioModificacion(idUsuario, nombre, passwordHasheada, email);
         }
     }
 }

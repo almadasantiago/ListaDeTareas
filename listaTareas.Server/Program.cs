@@ -77,6 +77,15 @@ app.MapPost("/api/usuarios/registrar",
         }
     });
 
+app.MapGet("/api/usuarios/{id}", async (int id, IUsuarioRepositorio repo) =>
+{
+    var usuario = await repo.ObtenerPorId(id);
+    if (usuario == null)
+        return Results.NotFound();
+    return Results.Ok(usuario);
+});
+
+
 app.MapPost("/api/usuarios/login",
     async (UsuarioLoginDTO dto, CasoDeUsoUsuarioIniciarSesion caso) =>
     {

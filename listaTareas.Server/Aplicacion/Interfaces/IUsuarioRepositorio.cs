@@ -1,4 +1,5 @@
 ﻿using listaTareas.Server.Aplicacion.Entidades;
+using listaTareas.Server.DTOs;
 
 namespace listaTareas.Server.Aplicacion.Interfaces
 {
@@ -8,8 +9,10 @@ namespace listaTareas.Server.Aplicacion.Interfaces
         void usuarioModificacion(int id, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> tareas);
 
         int UsuarioInicioDeSesion(string email, string password);
-        bool nombreRepetido(string nombre); 
+        bool nombreRepetido(string nombre);
+
+         Task<UsuarioDTO> ObtenerPorId(int id);
 
 
+        }
     }
-}

@@ -1,6 +1,7 @@
 ﻿using listaTareas.Server.Aplicacion;
 using listaTareas.Server.Aplicacion.Entidades;
 using listaTareas.Server.Aplicacion.Interfaces;
+using listaTareas.Server.DTOs;
 using listaTareas.Server.Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -67,6 +68,18 @@ namespace listaTareas.Server.Repositorios
                 throw new Exception("El nombre de usuario ingresado no existe en el repositorio");
             }
         }
+        public async Task<UsuarioDTO> ObtenerPorId(int id)
+        {
+            var usuario = await context.Usuarios.FindAsync(id);
+            return new UsuarioDTO
+            {
+                Id = usuario.Id,
+                NombreUsuario = usuario.Nombreusuario,
+                Correo = usuario.Correo,
+                Password = usuario.Password
+            };
+        }
+
 
         public void usuarioModificacion(int idUsuario, string nuevoNombre, string nuevaPassword, string nuevoCorreo, List<Tarea> Nuevastareas)
         {

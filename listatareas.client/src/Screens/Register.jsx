@@ -46,7 +46,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group mb-3 text-start">
-                        <label htmlFor="correo">Correo electrónico</label>
+                        <label htmlFor="correo">Correo electronico</label>
                         <input
                             type="email"
                             className="form-control"

@@ -15,10 +15,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await UsuarioService.login(form);
-            const idUsuario = response.idUsuario;
-            localStorage.setItem('usuarioId', idUsuario);
-            alert("Inicio de sesión exitoso");
+            const data = await UsuarioService.login(form);
+            localStorage.setItem('usuarioId', data.idUsuario);
+            localStorage.setItem('nombreUsuario', data.nombreUsuario);
             navigate('/tareas'); 
         } catch (error) {
             alert(error.response?.data?.error || "Error al iniciar sesión");
@@ -29,7 +28,7 @@ const Login = () => {
         <div className="home-container d-flex align-items-center justify-content-center text-white position-relative">
             <div className="overlay"></div>
             <div className="home-content text-center p-4 rounded shadow-lg">
-                <h2 className="mb-4">Iniciar Sesión</h2>
+                <h2 className="mb-4">Iniciar Sesion</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-3 text-start">
                         <label htmlFor="nombreUsuario">Nombre de usuario</label>

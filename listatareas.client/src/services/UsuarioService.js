@@ -10,7 +10,17 @@ const UsuarioService = {
     login: async (credenciales) => {
         const response = await axios.post(`${API_URL}/login`, credenciales);
         return response.data;
-    }
+    },
+    obtener: async (id) => {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    },
+
+    modificar: async (id, usuario) => {
+        const response = await axios.put(`${API_URL}/${id}`, usuario);
+        return response.data;
+    },
+
 };
 
 export default UsuarioService;

@@ -83,7 +83,7 @@ app.MapPost("/api/usuarios/login",
         try
         {
             int id = caso.Ejecutar(dto.NombreUsuario, dto.Password);
-            return Results.Ok(new { idUsuario = id });
+            return Results.Ok(new { idUsuario = id, nombreUsuario = dto.NombreUsuario });
         }
         catch (Exception ex)
         {

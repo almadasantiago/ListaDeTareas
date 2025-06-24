@@ -3,7 +3,7 @@ using listaTareas.Server.Aplicacion.Interfaces;
 
 namespace listaTareas.Server.Aplicacion.CasosDeUso.CasosDeUsoTarea
 {
-    public class CasoDeUsoModificarTarea (ITareaRepositorio repo)
+    public class CasoDeUsoModificarTarea (ITareaRepositorio repo) 
     {
         public void Ejecutar (int idTarea, string nuevoNombre, string nuevaDesc, int idUsuario)
         {

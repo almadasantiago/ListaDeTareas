@@ -12,7 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -87,24 +91,18 @@ app.MapPost("/api/usuarios/login",
         }
     });
 
-app.MapGet("/api/tareas/{idUsuario}", (int idUsuario, CasoDeUsoListarTareas caso) =>
+app.MapGet("/api/tareas", (int idUsuario, int pagina, int tamanioPagina, ITareaRepositorio repo) =>
 {
-    try
-    {
-        var tareas = caso.Ejecutar();
-        return Results.Ok(tareas);
-    }
-    catch (Exception ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
+    var result = repo.ListarPaginado(idUsuario, pagina, tamanioPagina);
+    return Results.Ok(result);
 });
+
 
 app.MapPost("/api/tareas/crear", async (TareaDTO dto, CasoDeUsoTareaAlta caso) =>
 {
     try
     {
-        caso.Ejecutar(dto.Titulo, dto.Descripcion, dto.idUsuario);
+        caso.Ejecutar(dto.Nombre, dto.Descripcion, dto.IdUsuario);
         return Results.Ok("Tarea creada");
     }
     catch (Exception ex)
@@ -126,5 +124,13 @@ app.MapDelete("/api/tareas/{id}", (int id, CasoDeUsoTareaBaja caso) =>
         return Results.BadRequest(new { error = ex.Message });
     }
 });
+
+app.MapPut("/api/tareas/modificar", async (TareaDTO dto, CasoDeUsoModificarTarea caso) =>
+{
+     caso.Ejecutar(dto.Id, dto.Nombre, dto.Descripcion, dto.IdUsuario);
+    return Results.Ok("Tarea modificada");
+});
+
+
 
 app.Run();

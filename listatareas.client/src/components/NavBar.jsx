@@ -66,7 +66,7 @@ const NavBar = () => {
                                         </li>
                                         <li>
                                             <button className="dropdown-item text-white bg-transparent" onClick={handleCerrarSesion}>
-                                                Cerrar Sesión
+                                                Cerrar Sesion
                                             </button>
                                         </li>
                                     </ul>
@@ -84,7 +84,7 @@ const NavBar = () => {
                                 {rutaActual === "/Registro" && (
                                     <li className="nav-item ms-2">
                                         <Link className="btn btn-outline-light" to="/IniciarSesion">
-                                            Iniciar Sesión
+                                            Iniciar Sesion
                                         </Link>
                                     </li>
                                 )}

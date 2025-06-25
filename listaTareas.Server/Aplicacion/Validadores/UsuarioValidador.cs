@@ -14,7 +14,7 @@ namespace listaTareas.Server.Aplicacion.Validadores
         public bool validar(string nombreUsuario)
         {
             var usuarioExistente = repo.buscarPorNombre(nombreUsuario);
-            return usuarioExistente == null;
+            return !(usuarioExistente == null);
         }
         public bool validarModificacion(int idUsuario, string nombreUsuario)
         {

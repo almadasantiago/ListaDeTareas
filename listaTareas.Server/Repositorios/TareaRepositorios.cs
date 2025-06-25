@@ -34,9 +34,12 @@ namespace listaTareas.Server.Repositorios
 
         List<Tarea> ITareaRepositorio.listarTareas()
         {
-            var tareas = db.Tareas.ToList();
+            var tareas = db.Tareas.
+                OrderByDescending(t => t.Fecha)
+                .ThenByDescending(t => t.Id)
+                .ToList();
             if (tareas == null) { throw new Exception(" Las tareas aun no fueron cargadas "); }
-            else return tareas;  
+            return tareas;  
         }
 
 
@@ -53,7 +56,10 @@ namespace listaTareas.Server.Repositorios
         }
         public PagedResult<Tarea> ListarPaginado(int idUsuario, int pagina, int tamanioPagina)
         {
-            var query = db.Tareas.Where(t => t.UsuarioId == idUsuario).OrderBy(t => t.Id);
+            var query = db.Tareas.Where(t => t.UsuarioId == idUsuario)
+                .OrderByDescending(t => t.Fecha).
+                ThenByDescending(t => t.Id);
+
             var total = query.Count();
             var items = query.Skip((pagina - 1) * tamanioPagina)
                              .Take(tamanioPagina)

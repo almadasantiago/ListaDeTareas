@@ -77,7 +77,7 @@ const ModalModificarPerfil = ({ mostrar, cerrarModal }) => {
                     />
                 </div>
                 <div className="form-group mb-3">
-                    <label>Contraseña</label>
+                    <label>Password</label>
                     <input
                         type="password"
                         className="form-control"

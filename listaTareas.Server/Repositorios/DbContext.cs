@@ -52,8 +52,9 @@ namespace listaTareas.Server.Infraestructura.Persistencia
                 entity.Property(t => t.Descripcion)
                     .HasMaxLength(500);
 
-                entity.Property(t => t.Fecha)
-                    .IsRequired();
+                entity.Property(t => t.Fecha).
+                HasColumnType("datetime2").
+                IsRequired(); 
 
                 entity.Property(t => t.Finalizo)
                     .IsRequired();

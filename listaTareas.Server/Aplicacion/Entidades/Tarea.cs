@@ -18,7 +18,7 @@ public class Tarea
     {
         Nombre = nombre;
         Descripcion = descripcion;
-        Fecha = fecha;
+        Fecha = DateTime.Now;
         Finalizo = finalizo;
         UsuarioId = idUsuario;
     }

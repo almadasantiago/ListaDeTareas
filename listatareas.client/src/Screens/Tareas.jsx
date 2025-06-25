@@ -106,6 +106,9 @@ const Tareas = () => {
                                     <h5 className="card-title">{t.nombre}</h5>
                                     <p className="card-text">{t.descripcion}</p>
                                     <p className="mb-1"><strong>Fecha:</strong> {new Date(t.fecha).toLocaleDateString()}</p>
+                                    <p className="card-text">
+                                        Estado: <span className="text-success">Activa</span>
+                                    </p>
                                     <div className="d-flex justify-content-between mt-3">
                                         <button className="btn btn-outline-light btn-sm" onClick={() => editarTarea(t)}>Modificar</button>
                                         <button className="btn btn-danger btn-sm" onClick={() => { TareaService.finalizar(t.id).then(() => fetchPage(tareasData.page)); }}>Finalizar</button>
